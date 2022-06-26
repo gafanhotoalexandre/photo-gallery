@@ -40,7 +40,7 @@ export default function App() {
         {!loadingPhotos && photos.length > 0 &&
           <C.PhotoList>
             {photos.map((item, index) => (
-              <div>{item.name}</div>
+              <div key={index}>{item.name}</div>
             ))}
           </C.PhotoList>
         }
