@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 
 // components
 import { PhotoItem } from './components/PhotoItem';
@@ -10,6 +10,7 @@ import * as C from './App.styles';
 import { Photo } from './types/Photo';
 
 export default function App() {
+  const [uploading, setUploading] = useState(false);
   const [loadingPhotos, setLoadingPhotos] = useState(false);
   const [photos, setPhotos] = useState<Photo[]>([]);
 
@@ -24,6 +25,21 @@ export default function App() {
     getPhotos();
   }, []);
 
+  async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const file = formData.get('image') as File;
+
+    if (file && file.size > 0) {
+      setUploading(true);
+
+
+
+      setUploading(false);
+    }
+  }
+
   return (
     <C.Container>
       <C.Area>
@@ -31,6 +47,10 @@ export default function App() {
         <C.Header>Galeria de Fotos</C.Header>
 
         {/* Área de Upload */}
+        <C.UploadForm method="POST" onSubmit={handleFormSubmit}>
+          <input type="file" name="image" />
+          <input type="submit" value="Enviar" />
+        </C.UploadForm>
 
         {/* Lista de Fotos */}
         {loadingPhotos &&
