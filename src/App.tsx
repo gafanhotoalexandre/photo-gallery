@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 
+// components
+import { PhotoItem } from './components/PhotoItem';
+
 // services
 import * as Photos from './services/photos';
 
@@ -40,7 +43,10 @@ export default function App() {
         {!loadingPhotos && photos.length > 0 &&
           <C.PhotoList>
             {photos.map((item, index) => (
-              <div key={index}>{item.name}</div>
+              <PhotoItem key={index}
+                name={item.name}
+                url={item.url}
+              />
             ))}
           </C.PhotoList>
         }
