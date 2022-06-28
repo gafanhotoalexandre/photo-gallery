@@ -33,10 +33,16 @@ export default function App() {
 
     if (file && file.size > 0) {
       setUploading(true);
-
-
-
+      // inserindo imagem
+      let result = await Photos.insert(file);
       setUploading(false);
+
+      if (result instanceof Error) alert(`${result.name} - ${result.message}`);
+      else {
+        let newPhotoList = [...photos];
+        newPhotoList.push(result);
+        setPhotos(newPhotoList);
+      }
     }
   }
 
@@ -50,6 +56,7 @@ export default function App() {
         <C.UploadForm method="POST" onSubmit={handleFormSubmit}>
           <input type="file" name="image" />
           <input type="submit" value="Enviar" />
+          {uploading && "Enviando..."}
         </C.UploadForm>
 
         {/* Lista de Fotos */}
